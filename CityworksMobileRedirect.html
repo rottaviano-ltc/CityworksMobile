@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Open Work Activity</title>
+  <meta charset="utf-8">
+  <title>Launching Cityworks</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      padding: 40px;
+      text-align: center;
+      color: #194d87;
+    }
+  </style>
 </head>
 <body>
-  <p>Tap or long-press this button to open Cityworks Mobile:</p>
-
-  <!-- Button placeholder -->
-  <a id="openBtn" href="#" 
-     style="display:inline-block; padding:10px 20px; background:#0079c1; color:#fff; border-radius:5px; text-decoration:none;">
-     Open Work Activity
-  </a>
-
-  <p>If the button doesn’t work, copy this link:</p>
-  <p id="fallback" style="word-break:break-all;"></p>
+  <p id="status">Launching Cityworks…</p>
 
   <script>
-    // Get workId from the URL query string
     const params = new URLSearchParams(window.location.search);
-    const workId = params.get('workId');
+    const id = params.get("workActivityId");
 
-    if(workId) {
-      // Set the button link dynamically
-      const btn = document.getElementById('openBtn');
-      btn.href = "Cityworks12://openWorkActivity?workActivityType=4&workActivityId=" + workId;
+    if (id) {
+      const cityworksUrl = `cityworks12://openWorkActivity?workActivityType=4&workActivityId=${id}`;
+      // Optional: show loading message
+      document.getElementById("status").textContent = "Opening Cityworks work order…";
 
-      // Set fallback text
-      document.getElementById('fallback').innerText =
-        "Cityworks12://openWorkActivity?workActivityType=4&workActivityId=" + workId;
+      // Auto-redirect after slight delay
+      setTimeout(() => {
+        window.location.href = cityworksUrl;
+      }, 300);
     } else {
-      document.getElementById('fallback').innerText = "No WorkOrderId provided";
+      // Show fallback message only if ID missing
+      document.getElementById("status").textContent = "⚠️ No Work Order ID provided in the URL.";
     }
   </script>
 </body>
